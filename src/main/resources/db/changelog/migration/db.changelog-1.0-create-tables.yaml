@@ -1,0 +1,215 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-user-table
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: user
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2-create-event-table
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: event
+      changes:
+        - createTable:
+            tableName: event
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: time
+                  type: TIME
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3-create-seat-table
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: seat
+      changes:
+        - createTable:
+            tableName: seat
+            columns:
+              - column:
+                name: id
+                type: UUID
+                constraints:
+                  primaryKey: true
+                  nullable: false
+              - column:
+                name: cost
+                type: NUMERIC(10, 2)
+                defaultValueNumeric: 0.00
+                constraints:
+                  nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: placement
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: event_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 4-add-tickets-foreign-key
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        and:
+          - tableExists:
+              tableName: event
+          - tableExists:
+              tableName: seat
+          - not:
+              foreignKeyConstraintExists:
+                foreignKeyName: fk_event_id
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: seat
+            baseColumnNames: event_id
+            referencedTableName: event
+            referencedColumnNames: id
+            constraintName: fk_event_id
+
+  - changeSet:
+      id: 5-create-ticket-table
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: ticket
+      changes:
+        - createTable:
+            tableName: ticket
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: buying_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: qr_code
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fk_user_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fk_seat_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 6-add-ticket-user-foreign-key
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        and:
+          - tableExists:
+              tableName: user
+          - tableExists:
+              tableName: ticket
+          - not:
+              foreignKeyConstraintExists:
+                foreignKeyName: fk_user_id
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: ticket
+            baseColumnNames: fk_user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_user_id
+
+  - changeSet:
+      id: 7-add-ticket-seat-foreign-key
+      author: postgres
+      preCondition:
+        onFail: MARK_RAN
+        and:
+          - tableExists:
+              tableName: seat
+          - tableExists:
+              tableName: ticket
+          - not:
+              foreignKeyConstraintExists:
+                foreignKeyName: fk_seat_id
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: ticket
+            baseColumnNames: fk_seat_id
+            referencedTableName: seat
+            referencedColumnNames: id
+            constraintName: fk_seat_id
