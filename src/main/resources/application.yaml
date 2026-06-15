@@ -1,6 +1,8 @@
 spring:
   application:
     name: tapp
+  config:
+    import: "classpath:/env.properties"
 
   server:
     port: 8085
@@ -16,6 +18,6 @@ spring:
 
   liquibase:
     enabled: true
-    change-log: classpath:/db.changelog-master.yaml
+    change-log: classpath:/db/changelog/migration/db.changelog-master.yaml
 
 

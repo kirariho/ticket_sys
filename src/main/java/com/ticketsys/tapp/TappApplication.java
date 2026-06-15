@@ -8,6 +8,7 @@ public class TappApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TappApplication.class, args);
+
 	}
 
 }

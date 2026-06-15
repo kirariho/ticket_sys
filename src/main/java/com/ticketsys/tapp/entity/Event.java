@@ -3,7 +3,7 @@ package com.ticketsys.tapp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,7 +20,7 @@ public class Event {
     private UUID id = UUID.randomUUID();
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(nullable = false)
     private String title;
