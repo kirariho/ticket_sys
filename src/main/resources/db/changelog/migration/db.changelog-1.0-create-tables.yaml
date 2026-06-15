@@ -67,7 +67,6 @@ databaseChangeLog:
                   type: VARCHAR(10)
                   constraints:
                     nullable: false
-
   - changeSet:
       id: 3-create-seat-table
       author: postgres
@@ -81,17 +80,17 @@ databaseChangeLog:
             tableName: seat
             columns:
               - column:
-                name: id
-                type: UUID
-                constraints:
-                  primaryKey: true
-                  nullable: false
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
               - column:
-                name: cost
-                type: NUMERIC(10, 2)
-                defaultValueNumeric: 0.00
-                constraints:
-                  nullable: false
+                  name: cost
+                  type: NUMERIC(10, 2)
+                  defaultValueNumeric: 0.00
+                  constraints:
+                    nullable: false
               - column:
                   name: status
                   type: VARCHAR(255)
@@ -107,7 +106,6 @@ databaseChangeLog:
                   type: UUID
                   constraints:
                     nullable: false
-
   - changeSet:
       id: 4-add-tickets-foreign-key
       author: postgres
@@ -163,12 +161,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: fk_user_id
+                  name: user_id
                   type: UUID
                   constraints:
                     nullable: false
               - column:
-                  name: fk_seat_id
+                  name: seat_id
                   type: UUID
                   constraints:
                     nullable: false
@@ -188,7 +186,7 @@ databaseChangeLog:
       changes:
         - addForeignKeyConstraint:
             baseTableName: ticket
-            baseColumnNames: fk_user_id
+            baseColumnNames: user_id
             referencedTableName: user
             referencedColumnNames: id
             constraintName: fk_user_id
@@ -196,7 +194,7 @@ databaseChangeLog:
   - changeSet:
       id: 7-add-ticket-seat-foreign-key
       author: postgres
-      preCondition:
+      preConditions:
         onFail: MARK_RAN
         and:
           - tableExists:
@@ -209,7 +207,7 @@ databaseChangeLog:
       changes:
         - addForeignKeyConstraint:
             baseTableName: ticket
-            baseColumnNames: fk_seat_id
+            baseColumnNames: seat_id
             referencedTableName: seat
             referencedColumnNames: id
             constraintName: fk_seat_id
