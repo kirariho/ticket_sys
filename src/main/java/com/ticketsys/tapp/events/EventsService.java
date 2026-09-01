@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -17,8 +16,8 @@ public class EventsService {
     private final EventMapper eventMapper;
 
     public EventsService(EventRepository eventRepository, EventMapper eventMapper){
-        this.eventMapper = eventMapper;
         this.eventRepository = eventRepository;
+        this.eventMapper = eventMapper;
     }
     public List<EventsResponse> findAll(){
         List<Event> events = eventRepository.findAll();

@@ -28,9 +28,6 @@ public class Event {
     @Column(nullable = false)
     private String place;
 
-    @Column(nullable = false)
-    private int ageLimit;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
     private Set<Seat> seats;
 

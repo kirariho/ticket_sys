@@ -14,15 +14,18 @@ import java.util.UUID;
 @RequestMapping("/events")
 public class EventsController {
 
-    @Autowired
-    protected EventsService eventService;
+    private final EventsService eventService;
+
+    public EventsController(EventsService eventService){
+        this.eventService = eventService;
+    }
 
     @GetMapping("/{id}")
     public EventsResponse getEventById(@PathVariable UUID id){
         return eventService.findById(id);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<EventsResponse> getAllEvents(){
         return eventService.findAll();
     }
