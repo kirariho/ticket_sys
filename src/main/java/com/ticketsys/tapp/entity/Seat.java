@@ -25,6 +25,7 @@ public class Seat {
     private String placement;
 
     @Column()
+    @Enumerated(EnumType.STRING)
     private SeatStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
