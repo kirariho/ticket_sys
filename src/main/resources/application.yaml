@@ -12,8 +12,8 @@ spring:
 
   datasource:
     url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_USRNAME}
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
 
   liquibase:

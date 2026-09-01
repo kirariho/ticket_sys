@@ -1,0 +1,102 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7-insert-initial-user
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        tableExists:
+          tableName: user
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  value: "a553959f-13f0-4f27-82e4-221611ab08da"
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  value: 1234
+              - column:
+                  name: age
+                  value: 111
+  - changeSet:
+      id: 8-insert-initial-event
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        tableExists:
+          tableName: event
+      changes:
+        - insert:
+            tableName: event
+            columns:
+              - column:
+                  name: id
+                  value: "7a1610d9-5be1-4336-ade8-efc815e50aad"
+              - column:
+                  name: date
+                  valueComputed: now()
+              - column:
+                  name: title
+                  value: "Ганнибал"
+              - column:
+                  name: place
+                  value: "где-то"
+  - changeSet:
+      id: 9-insert-initial-seat
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        tableExists:
+          tableName: seat
+      changes:
+        - insert:
+            tableName: seat
+            columns:
+              - column:
+                  name: id
+                  value: "84e271c9-d6b9-472d-b7ab-3db8941d275c"
+              - column:
+                  name: cost
+                  value: 5000
+              - column:
+                  name: placement
+                  value: "1A"
+              - column:
+                  name: status
+                  value: "AVAILABLE"
+              - column:
+                  name: event_id
+                  value: "7a1610d9-5be1-4336-ade8-efc815e50aad"
+  - changeSet:
+      id: 10-insert-initial-ticket
+      author: postgres
+      preConditions:
+        onFail: MARK_RAN
+        tableExists:
+          tableName: ticket
+      changes:
+        - insert:
+            tableName: ticket
+            columns:
+              - column:
+                  name: id
+                  value: "cb4a47fa-e4b5-47d0-a93b-9e14bc1d720b"
+              - column:
+                  name: buying_time
+                  valueComputed: now()
+              - column:
+                  name: qr_code
+                  value: "214c243432424rrgt43t43t"
+              - column:
+                  name: status
+                  value: "CONFIRMED"
+              - column:
+                  name: user_id
+                  value: "a553959f-13f0-4f27-82e4-221611ab08da"
+              - column:
+                  name: seat_id
+                  value: "84e271c9-d6b9-472d-b7ab-3db8941d275c"
