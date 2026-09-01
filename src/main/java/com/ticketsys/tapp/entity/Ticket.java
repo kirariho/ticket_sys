@@ -26,6 +26,7 @@ public class Ticket {
     private String qrCode;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TicketStatus status;
 
     @OneToOne(fetch = FetchType.LAZY)
